@@ -1,5 +1,0 @@
-<svg width="140" height="48" viewBox="0 0 140 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <text x="0" y="38" font-family="'JetBrains Mono', monospace" font-size="32" font-weight="700" fill="currentColor">></text>
-  <text x="24" y="38" font-family="'JetBrains Mono', monospace" font-size="32" font-weight="700" fill="currentColor">M</text>
-  <text id="cursor" x="48" y="38" font-family="'JetBrains Mono', monospace" font-size="32" font-weight="700" fill="currentColor">_</text>
-</svg>
