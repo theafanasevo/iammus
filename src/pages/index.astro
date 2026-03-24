@@ -43,6 +43,7 @@ const projects = (await getCollection('work'))
 					width="480"
 					height="620"
 					src="/assets/cindewulung-codingshirt-look.jpg"
+					alt="Mustafa is in tropical plants in Indonesia"
 				/>
 			</header>
 
@@ -87,10 +88,34 @@ const projects = (await getCollection('work'))
 				<div class="gallery">
 					<Grid variant="small">
 						{
-							['Substack', 'X', 'Bluesky', 'tumblr', 'Blogspot'].map((brand) => (
-								<li class="mention-card">
-									<p>{brand}</p>
-								</li>
+							[
+								{
+									name: 'Substack',
+									link: 'https://mustafakursun.substack.com' 
+								},
+								{
+									name: 'X',
+									link: 'https://x.com/KursunMust'
+								},
+								{
+									name: 'Bluesky',
+									link: ''
+								},
+								{
+									name: 'Tumblr',
+									link: 'https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://thekursuns.tumblr.com/'
+								},
+								{
+									name: 'Blogspot',
+									link: 'https://dalamjarak.blogspot.com/'
+
+								}
+							].map((brand) => (
+								<a href={brand.link}
+									<li class="mention-card">
+										<p>{brand.name}</p>
+									</li>
+								</a>
 							))
 						}
 					</Grid>
