@@ -1,0 +1,171 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+
+interface Props {
+	writing: CollectionEntry<'blog'>;
+}
+
+const { writing } = Astro.props;
+const { title, description, publishDate, tags, img, img_alt, embedded } = writing.data;
+
+// Format date nicely
+const formattedDate = publishDate.toLocaleDateString('en-US', {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric',
+});
+---
+
+<article class="project-card group">
+	<a href={`/blog/${writing.id}`} class="card-link" aria-label={`Read blog writing: ${title}`}>
+		<div class="image-wrapper">
+			{img ? (
+				<img 
+					src={img} 
+					alt={img_alt || title} 
+					loading="lazy"
+					class="project-image"
+				/>
+			) : (
+				<div class="image-placeholder" aria-hidden="true">
+					<Icon icon="pencil-line" size="3rem" />
+				</div>
+			)}
+			
+			{embedded && (
+				<div class="embed-badge" title={`Embedded from ${embedded}`}>
+					<Icon icon="link" size="1rem" />
+					<span class="sr-only">Embedded content from {embedded}</span>
+				</div>
+			)}
+		</div>
+
+		<div class="content">
+			<header class="stack gap-2">
+				<time datetime={publishDate.toISOString()} class="text-sm text-gray-400">
+					{formattedDate}
+				</time>
+				<h3 class="text-xl font-bold group-hover:text-accent transition-colors">
+					{title}
+				</h3>
+				<p class="text-gray-300 line-clamp-2">
+					{description}
+				</p>
+			</header>
+
+			{tags && tags.length > 0 && (
+				<footer class="tags-list">
+					{tags.map((tag) => (
+						<span class="tag-pill">{tag}</span>
+					))}
+				</footer>
+			)}
+		</div>
+	</a>
+</article>
+
+<style>
+	.project-card {
+		display: flex;
+		flex-direction: column;
+		background: var(--gray-900);
+		border: 1px solid var(--gray-800);
+		border-radius: 1.5rem;
+		overflow: hidden;
+		transition: transform var(--theme-transition), box-shadow var(--theme-transition);
+		height: 100%;
+	}
+
+	.project-card:hover {
+		transform: translateY(-4px);
+		box-shadow: var(--shadow-md);
+		border-color: var(--gray-700);
+	}
+
+	.card-link {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.image-wrapper {
+		position: relative;
+		aspect-ratio: 16 / 9;
+		overflow: hidden;
+		background: var(--gray-950);
+	}
+
+	.project-image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform var(--theme-transition);
+	}
+
+	.project-card:hover .project-image {
+		transform: scale(1.05);
+	}
+
+	.image-placeholder {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--gray-600);
+	}
+
+	.embed-badge {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		background: rgba(0, 0, 0, 0.7);
+		color: white;
+		padding: 0.25rem 0.75rem;
+		border-radius: 999px;
+		font-size: 0.75rem;
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+		backdrop-filter: blur(4px);
+	}
+
+	.content {
+		padding: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		gap: 1rem;
+	}
+
+	.tags-list {
+		margin-top: auto;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.tag-pill {
+		font-size: 0.75rem;
+		padding: 0.25rem 0.75rem;
+		background: var(--gray-800);
+		color: var(--gray-300);
+		border-radius: 999px;
+	}
+
+	/* Utility for screen readers */
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border-width: 0;
+	}
+</style>
